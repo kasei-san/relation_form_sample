@@ -1,0 +1,9 @@
+{
+  "name": "relation_form_sample",
+  "website": "https://github.com/kasei-san/relation_form_sample",
+  "repository": "https://github.com/kasei-san/relation_form_sample",
+  "success_url": "/items",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:migrate; bundle exec rake db:seed"
+  }
+}

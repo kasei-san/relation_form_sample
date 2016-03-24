@@ -1,5 +1,9 @@
 1フォームで1対多のモデルを編集可能にしてみる
 
+# Deploy on Heroku
+
+[![Heroku Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/kasei-san/relation_form_sample)
+
 # Item の scaffold を作成
 
 ```
