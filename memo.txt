@@ -41,9 +41,7 @@ db/seeds.rb
 end
 ```
 
-# 別件
-
-ここで急に haml で書きたくなった
+# ここで急に haml で書きたくなった
 
 - Gemfile
 
@@ -62,7 +60,38 @@ bundle install
 rake haml:replace_erbs
 ```
 
+# Item と Photo を連携させる
+
+- app/controllers/items_controller.rb
+```
+    def set_item
+      @item = Item.includes(:photos).find(params[:id])
+    end
+```
+
+- app/views/items/show.html.haml
+```
+%p
+  %strong Name:
+  = @item.name
+%p
+  %strong Price:
+  = @item.price
+%ul
+  - @item.photos.each do |photo|
+    %li
+      = photo.title
+```
+
+# Item の form で photo を更新可能にする
+
+
+
+
+
 # 参考
+
+
 
 - [Rails4で1対多のリレーションをモデルに実装する - Rails Webook](http://ruby-rails.hatenadiary.com/entry/20141203/1417601540)
 - [3. 1対多の関連を持つオブジェクトを編集可能なフォーム — Railsアプリケーション構築ガイド](http://rails.densan-labs.net/form/relation_register_form.html)
