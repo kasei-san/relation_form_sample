@@ -15,5 +15,13 @@
     = f.label :price
     %br/
     = f.number_field :price
+
+  %h3 Photos
+  #photos
+    = f.fields_for :photos do |photo|
+      = render 'photo_fields', f: photo
+    .links
+      = link_to_add_association 'add photo', f, :photos
+
   .actions
     = f.submit
