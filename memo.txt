@@ -1,5 +1,27 @@
 [Rails] 1フォームで1対多のモデルを編集可能にしてみる
 
 
+rails g scaffold item name:string price:integer
+
+rails g model photo title:string item_id:integer
+
+
+```
+class Photo < ActiveRecord::Base
+  belongs_to :item
+end
+```
+
+```
+class Item < ActiveRecord::Base
+  has_many :photos, dependent: :destroy
+end
+```
+
+# 参考
+
+- [Rails4で1対多のリレーションをモデルに実装する - Rails Webook](http://ruby-rails.hatenadiary.com/entry/20141203/1417601540)
+- 
+
 
 
