@@ -9,6 +9,8 @@
   - @item.photos.each do |photo|
     %li
       = photo.title
+    %li
+      = image_tag photo.image.url(:thumb)
 
 = link_to 'Edit', edit_item_path(@item)
 |
