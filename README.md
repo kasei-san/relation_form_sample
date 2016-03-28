@@ -1,3 +1,6 @@
+
+1対多のモデルで、写真をS3にupするアプリのサンプル
+
 # Deploy on Heroku
 
 [![Heroku Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy?template=https://github.com/kasei-san/relation_form_sample)
