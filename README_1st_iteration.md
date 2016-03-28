@@ -1,19 +1,34 @@
-1フォームで1対多のモデルを編集可能にしてみる
+# やりたいこと
+
+Railsで1対多のmodelがあるときに、
+親modelのformで子modelを動的に追加したり削除したりしたい
+
+# 方法
+
+[nathanvda/cocoon](https://github.com/nathanvda/cocoon) を使う
 
 
-# Item の scaffold を作成
+# つくりかた
+
+##  Gemfile
+
+```Gemfile
+gem 'cocoon'
+```
+
+## Item の scaffold を generate
 
 ```
 rails g scaffold item name:string price:integer
 ```
 
-# Item の子要素。Photo の scaffold を作成
+## Photo model を generate
 
 ```
-rails g scaffold photo title:string --skip
+rails g model photo title:string
 ```
 
-## Item と、Photo をリレーション
+### Item と、Photo をリレーション
 
 app/models/Photo.rb
 
@@ -42,7 +57,7 @@ db/seeds.rb
 end
 ```
 
-# ここで急に haml で書きたくなった
+## ここで急に haml で書きたくなった
 
 Gemfile
 
@@ -61,7 +76,7 @@ bundle install
 rake haml:replace_erbs
 ```
 
-# Item と Photo を連携させる
+## `ItemController#show` で、 Photo を表示するように
 
 app/controllers/items_controller.rb
 
@@ -86,17 +101,10 @@ app/views/items/show.html.haml
       = photo.title
 ```
 
-# Item の form で photo を更新可能にする
+## Item の form で Photo を更新可能に
 
-- [nathanvda/cocoon: Dynamic nested forms using jQuery made easy; works with formtastic, simple_form or default forms](https://github.com/nathanvda/cocoon) を使う
 
-##  Gemfile
-
-```Gemfile
-gem 'cocoon'
-```
-
-## 動的な追加/削除のための js ライブラリを追加
+### 動的な追加/削除のための js ライブラリを追加
 
 app/assets/javascripts/application.js
 
@@ -104,20 +112,9 @@ app/assets/javascripts/application.js
 //= require cocoon
 ```
 
-## cocoonが使うパラメータを許可(_destroy は削除用)
+### cocoonが使うパラメータを許可(_destroy は削除用)
 
-app/views/controllers/items_controller.rb
-
-```ruby
-     def item_params
-       params.require(:item).permit(:name, :price, photos_attributes: %i[id title _destroy])
-     end
-```
-
-## 子要素の追加/編集/削除を許可
-
-app/models/item.rb
-
+app/controllers/items_controller.rb
 
 ```ruby
      def item_params
@@ -125,12 +122,18 @@ app/models/item.rb
      end
 ```
 
-## 子要素の追加/編集/削除を許可
+### 子要素の追加/編集/削除を許可
 
 app/models/item.rb
 
 ```ruby
 accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
+```
+
+```ruby
+     def item_params
+       params.require(:item).permit(:name, :price, photos_attributes: %i[id title _destroy])
+     end
 ```
 
 ## 子要素を編集するフォームを追加
@@ -156,6 +159,27 @@ app/views/items/_photo_fields.haml
     = f.text_field :title
   = link_to_remove_association 'remove', f
 ```
+
+# できた!
+
+http://localhost:3000/items
+
+[f:id:kasei_san:20160324222259p:plain]
+
+http://localhost:3000/items/2
+
+[f:id:kasei_san:20160324222330p:plain]
+
+http://localhost:3000/items/2/edit
+
+[f:id:kasei_san:20160324222358p:plain]
+
+
+# github
+
+
+https://github.com/kasei-san/relation_form_sample
+
 
 # 参考
 
