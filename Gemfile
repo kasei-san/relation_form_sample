@@ -52,4 +52,5 @@ end
 gem 'haml-rails'
 gem 'erb2haml'
 gem 'cocoon'
+gem 'aws-sdk'
 gem 'paperclip', git: 'https://github.com/thoughtbot/paperclip', tag: 'v5.0.0.beta1'

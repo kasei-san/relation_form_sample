@@ -22,5 +22,18 @@ module Aaa
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.paperclip_defaults = {
+      storage:        :s3,
+      bucket:         ENV['S3_BUCKET'],
+      s3_region:      ENV['AWS_REGION'],
+      s3_host_name:   ENV['AWS_HOST_NAME'],
+      s3_credentials: {
+        access_key_id:     ENV['AWS_ACCESS_KEY'],
+        secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+      },
+      hash_secret:    'uO4l0IJA5hWKPo3kDgXj/Oo9H1KvDt912jDkzOIpP2ecaBMQgejN0MtVdkCee0FMOooNAnqIyMzIbb9BINVMbVza8Xbu8LT7Ee1vu538JzRtUKpLlB6hOezs/FzCBSmmmch4pDUemROm7iS8O8GAKs9jNkLUJydbqXHBvWX2qJM',
+      path:           ':attachment/:style/:hash.:extension',
+    }
   end
 end
